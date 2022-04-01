@@ -40,5 +40,5 @@ menu:
       url: about-hugo/
       weight: 20
 		- name: CV
-      url: cv
+      url: cv/
       weight: 20
