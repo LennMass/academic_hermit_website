@@ -1,7 +1,7 @@
 baseURL: https://LennMass.github.io/
 languageCode: en-us
 defaultContentLanguage: en
-title: Hugo Hermit
+title: Lennard Maßmann
 theme: hermit
 pygmentsCodefences: yes
 pygmentsUseClasses: yes
