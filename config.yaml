@@ -10,7 +10,7 @@ copyright: This work is licensed under a Creative Commons Attribution-NonCommerc
   4.0 International License.
 enableEmoji: yes
 author:
-  name: John Doe
+  name: Lennard Maßmann
 blackfriday: {}
 taxonomies:
   tag: tags
@@ -40,5 +40,5 @@ menu:
       url: about-hugo/
       weight: 20
     - name: CV
-      url: cv/
+      url: my_cv/
       weight: 20
