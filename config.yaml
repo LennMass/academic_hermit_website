@@ -39,6 +39,6 @@ menu:
     - name: About
       url: about-hugo/
       weight: 20
-		- name: CV
+    - name: CV
       url: cv/
       weight: 20
