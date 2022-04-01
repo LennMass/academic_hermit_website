@@ -22,16 +22,14 @@ params:
   dateformShort: Jan 2
   footerCopyright: ' &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/"
     target="_blank" rel="noopener">CC BY-NC 4.0</a>'
-  homeSubtitle: A minimal and fast theme for Hugo.
+  homeSubtitle: Phd candidate in Econometrics.
   justifyContent: no
   relatedPosts: no
   social:
-    - name: twitter
-      url: https://twitter.com/
-    - name: instagram
-      url: https://instagram.com/
+    - name: linkedin
+      url: https://www.linkedin.com/in/lennard-ma%C3%9Fmann-67a0341a5/
     - name: github
-      url: https://github.com/
+      url: https://github.com/LennMass
   themeColor: '#494f5c'
 menu:
   main:
@@ -40,4 +38,7 @@ menu:
       weight: 10
     - name: About
       url: about-hugo/
+      weight: 20
+		- name: CV
+      url: cv
       weight: 20
