@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lennard Maßmann</title>
+    <link>https://LennMass.github.io/</link>
+    <description>Recent content on Lennard Maßmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 01 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://LennMass.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>`makemyprior` package</title>
+      <link>https://LennMass.github.io/posts/makemyprior-package/</link>
+      <pubDate>Thu, 01 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://LennMass.github.io/posts/makemyprior-package/</guid>
+      <description>Illustrartion of the makemyprior package in R.
+This is an R Markdown Notebook. When you execute code within the notebook, the results appear beneath the code.
+Try executing this chunk by clicking the Run button within the chunk or by placing your cursor inside it and pressing Cmd+Shift+Enter.
+plot(cars) Add a new chunk by clicking the Insert Chunk button on the toolbar or by pressing Cmd+Option+I.
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the Preview button or press Cmd+Shift+K to preview the HTML file).</description>
+    </item>
+    
+    <item>
+      <title>Conformal Prediction Intervals</title>
+      <link>https://LennMass.github.io/posts/test/</link>
+      <pubDate>Thu, 01 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://LennMass.github.io/posts/test/</guid>
+      <description>\(\hat y\)
+There is a difference between prediction and confidence intervals.
+Prediction interval in general  interval associated with a random variable that will be observed in future and the specific probability of the random variable being situated in this interval  Prediction interval for new response:
+Prediction interval always narrower due to “extra MSE” term.
+ Confidence interval in general  frequentist concept concerned with the position of the non-random, but unknown parameter in relation to the interval (“containing the true parameter with some probability, given a large number of repeated samples”)  Confidence interval for mean response:</description>
+    </item>
+    
+    <item>
+      <title>Hello R Markdown</title>
+      <link>https://LennMass.github.io/posts/2020-12-01-r-rmarkdown/</link>
+      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
+      
+      <guid>https://LennMass.github.io/posts/2020-12-01-r-rmarkdown/</guid>
+      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+    </item>
+    
+    <item>
+      <title>The &#34;figure&#34; Shortcode</title>
+      <link>https://LennMass.github.io/posts/the-figure-shortcode/</link>
+      <pubDate>Mon, 24 Dec 2018 12:29:41 +0800</pubDate>
+      
+      <guid>https://LennMass.github.io/posts/the-figure-shortcode/</guid>
+      <description>Hugo has figure shortcode built in, so you can easily add figcaptions or hyperlink rel attributes to images. Documentations can be found here:
+https://gohugo.io/content-management/shortcodes/#figure
+This theme has 3 CSS classes made for figure elements:
+ big: images will break the width limit of main content area. left: images will float to the left. right: images will float to the right.  If a figure has no class set, the image will behave just like a normal markdown image: !</description>
+    </item>
+    
+    <item>
+      <title>Post With Featured Image</title>
+      <link>https://LennMass.github.io/posts/post-with-featured-image/</link>
+      <pubDate>Mon, 01 Oct 2018 16:15:09 +0800</pubDate>
+      
+      <guid>https://LennMass.github.io/posts/post-with-featured-image/</guid>
+      <description>Just define the image URL in the content’s front matter, the featured image will be displayed as the background.
+For example:
+---images:- https://picsum.photos/1024/768/?random---This is an array, you can set multiple urls, only the first url will be used. These images is also used in Twitter Cards and the Open Graph metadata.</description>
+    </item>
+    
+    <item>
+      <title>Typography</title>
+      <link>https://LennMass.github.io/posts/typography/</link>
+      <pubDate>Sat, 29 Sep 2018 11:36:33 +0800</pubDate>
+      
+      <guid>https://LennMass.github.io/posts/typography/</guid>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+ An apple is a sweet, edible fruit produced by an apple tree (Malus pumila).</description>
+    </item>
+    
+    <item>
+      <title>Creating a New Theme</title>
+      <link>https://LennMass.github.io/posts/creating-a-new-theme/</link>
+      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://LennMass.github.io/posts/creating-a-new-theme/</guid>
+      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
+We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
+    </item>
+    
+    <item>
+      <title>About Hugo</title>
+      <link>https://LennMass.github.io/about-hugo/</link>
+      <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://LennMass.github.io/about-hugo/</guid>
+      <description>Hugo is the world’s fastest framework for building websites. It is written in Go.
+It makes use of a variety of open source projects including:
+ https://github.com/russross/blackfriday https://github.com/alecthomas/chroma https://github.com/muesli/smartcrop https://github.com/spf13/cobra https://github.com/spf13/viper  Learn more and contribute on GitHub.</description>
+    </item>
+    
+    <item>
+      <title>Curriculum Vitae</title>
+      <link>https://LennMass.github.io/my_cv/</link>
+      <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://LennMass.github.io/my_cv/</guid>
+      <description>Here you can find the latest version of my CV.</description>
+    </item>
+    
+    <item>
+      <title>(Hu)go Template Primer</title>
+      <link>https://LennMass.github.io/posts/goisforlovers/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://LennMass.github.io/posts/goisforlovers/</guid>
+      <description>Hugo uses the excellent Go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in Go templates.
+This document is a brief primer on using Go templates.</description>
+    </item>
+    
+  </channel>
+</rss>

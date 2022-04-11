@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="Conformal Prediction Intervals">
+<meta itemprop="description" content="\(\hat y\)
+There is a difference between prediction and confidence intervals.
+Prediction interval in general  interval associated with a random variable that will be observed in future and the specific probability of the random variable being situated in this interval  Prediction interval for new response:
+Prediction interval always narrower due to “extra MSE” term.
+ Confidence interval in general  frequentist concept concerned with the position of the non-random, but unknown parameter in relation to the interval (“containing the true parameter with some probability, given a large number of repeated samples”)  Confidence interval for mean response:"><meta itemprop="datePublished" content="2021-04-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-04-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="327">
+<meta itemprop="keywords" content="" /><meta property="og:title" content="Conformal Prediction Intervals" />
+<meta property="og:description" content="\(\hat y\)
+There is a difference between prediction and confidence intervals.
+Prediction interval in general  interval associated with a random variable that will be observed in future and the specific probability of the random variable being situated in this interval  Prediction interval for new response:
+Prediction interval always narrower due to “extra MSE” term.
+ Confidence interval in general  frequentist concept concerned with the position of the non-random, but unknown parameter in relation to the interval (“containing the true parameter with some probability, given a large number of repeated samples”)  Confidence interval for mean response:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://LennMass.github.io/posts/test/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-04-01T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Conformal Prediction Intervals"/>
+<meta name="twitter:description" content="\(\hat y\)
+There is a difference between prediction and confidence intervals.
+Prediction interval in general  interval associated with a random variable that will be observed in future and the specific probability of the random variable being situated in this interval  Prediction interval for new response:
+Prediction interval always narrower due to “extra MSE” term.
+ Confidence interval in general  frequentist concept concerned with the position of the non-random, but unknown parameter in relation to the interval (“containing the true parameter with some probability, given a large number of repeated samples”)  Confidence interval for mean response:"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>Conformal Prediction Intervals</title>
+	<link rel="stylesheet" href="https://LennMass.github.io/css/style.min.037b6ee8f8c1baab6a3d0a9da11c3ff18a7552471f16c59fd98538d5ce99208b.css" integrity="sha256-A3tu6PjBuqtqPQqdoRw/8Yp1UkcfFsWf2YU41c6ZIIs=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://LennMass.github.io/">Lennard Maßmann</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://LennMass.github.io/posts/">Posts</a>
+				<a href="https://LennMass.github.io/about-hugo/">About</a>
+				<a href="https://LennMass.github.io/my_cv/">CV</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://www.linkedin.com/in/lennard-ma%C3%9Fmann-67a0341a5/" target="_blank" rel="noopener me" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://github.com/LennMass" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://LennMass.github.io/posts/">Posts</a></li>
+			<li><a href="https://LennMass.github.io/about-hugo/">About</a></li>
+			<li><a href="https://LennMass.github.io/my_cv/">CV</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Apr 1, 2021</span></div>
+				<h1>Conformal Prediction Intervals</h1>
+			</header>
+			<div class="content">
+				
+
+
+<p><span class="math inline">\(\hat y\)</span></p>
+<p>There is a <a href="https://robjhyndman.com/hyndsight/intervals/">difference</a> between prediction and confidence intervals.</p>
+<div id="prediction-interval-in-general" class="section level1">
+<h1>Prediction interval in general</h1>
+<ul>
+<li>interval associated with a random variable that will be observed in future and the specific probability of the random variable being situated in this interval</li>
+</ul>
+<p>Prediction interval for <strong>new</strong> response:</p>
+<p>Prediction interval always narrower due to “extra MSE” term.</p>
+</div>
+<div id="confidence-interval-in-general" class="section level1">
+<h1>Confidence interval in general</h1>
+<ul>
+<li>frequentist concept concerned with the position of the non-random, but unknown parameter in relation to the interval (“containing the true parameter with some probability, given a large number of repeated samples”)</li>
+</ul>
+<p>Confidence interval for <strong>mean</strong> response:</p>
+<p><span class="math inline">\(SE_{fit}\)</span> can approach zero 0 due to missing “extra MSE” term.</p>
+</div>
+<div id="bayesian-credible-interval" class="section level1">
+<h1>Bayesian credible interval</h1>
+<ul>
+<li>interval associated with the posterior distribution of a parameter (parameters are random variables in Bayesian perspective). Similarity to prediction interval, but here the interval is concerned with a parameter value in contrast to the association with an observation when talking about prediction intervals.</li>
+</ul>
+</div>
+<div id="conformal-prediction-framework" class="section level1">
+<h1>Conformal prediction framework</h1>
+<ul>
+<li><p><a href="https://jmlr.org/papers/v9/shafer08a.html">Vovk et al. 2008</a>, more thorough treatment in <a href="https://link.springer.com/book/10.1007/b106715">‘Algorithmic Learning in a Random World’ by Vovk et al. (2005)</a>.</p></li>
+<li><p>Why? Validity of prediction intervals. The probability of excluding the correct target value is bounded by a predefined confidence level. It makes it possible to assess the uncertainty of each single prediction.</p></li>
+</ul>
+</div>
+<div id="regression-conformal-prediction-intervals" class="section level1">
+<h1>Regression conformal prediction intervals</h1>
+<ul>
+<li><a href="https://link.springer.com/article/10.1007/s10994-014-5453-0">Johansson et al. 2014</a></li>
+</ul>
+<div id="inductive-conformal-prediction" class="section level2">
+<h2>Inductive conformal prediction</h2>
+<p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
+<pre class="r"><code>plot(cars)</code></pre>
+<p><img src="/posts/test_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Cmd+Option+I</em>.</p>
+<p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Cmd+Shift+K</em> to preview the HTML file).</p>
+<p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
+</div>
+</div>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>327 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2021-04-01 02:00 &#43;0200</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="next-post" href="https://LennMass.github.io/posts/makemyprior-package/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>`makemyprior` package</span>
+			</a>
+			<a class="prev-post" href="https://LennMass.github.io/posts/2020-12-01-r-rmarkdown/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>Hello R Markdown</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2022 <a href="https://LennMass.github.io/">Lennard Maßmann</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://LennMass.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://LennMass.github.io/js/bundle.min.8256b8724b9578bbdf6d6f04c894255bc760e78e8a2d60ec0a91ea993acd3b77.js" integrity="sha256-gla4ckuVeLvfbW8EyJQlW8dg546KLWDsCpHqmTrNO3c=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>

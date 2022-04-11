@@ -10,6 +10,7 @@
 
 
 
+<meta name="date" content="2021-04-01" />
 
 <title>Conformal Prediction Intervals</title>
 
@@ -214,15 +215,60 @@ pre code {
 
 
 <h1 class="title toc-ignore">Conformal Prediction Intervals</h1>
+<h4 class="date">2021-04-01</h4>
 
 </div>
 
 
 <!-- rnb-text-begin -->
+<p>There is a <a href="https://robjhyndman.com/hyndsight/intervals/">difference</a> between prediction and confidence intervals.</p>
+<div id="prediction-interval-in-general" class="section level1">
+<h1>Prediction interval in general</h1>
 <ul>
-<li>Regression conformal prediction intervals</li>
+<li>interval associated with a random variable that will be observed in future and the specific probability of the random variable being situated in this interval</li>
 </ul>
-<p><a href="https://link.springer.com/article/10.1007/s10994-014-5453-0">Johansson et al. 2014</a> Notebook. When you execute code within the notebook, the results appear beneath the code.</p>
+<p>Prediction interval for <strong>new</strong> response: <span class="math display">\[
+    \hat y_h \pm t_{(1-\alpha/2, n-2)} \cdot SE_{pred}
+\]</span></p>
+<p><span class="math display">\[
+    SE_{pred} = \sqrt{MSE \cdot \left(1+\frac{1}{n}+\frac{(x_h - \bar x)^2}{\sum(x_i - \bar x)^2}\right)}
+\]</span></p>
+<p>Prediction interval always narrower due to “extra MSE” term.</p>
+</div>
+<div id="confidence-interval-in-general" class="section level1">
+<h1>Confidence interval in general</h1>
+<ul>
+<li>frequentist concept concerned with the position of the non-random, but unknown parameter in relation to the interval (“containing the true parameter with some probability, given a large number of repeated samples”)</li>
+</ul>
+<p>Confidence interval for <strong>mean</strong> response:</p>
+<p><span class="math display">\[
+        \hat y_h \pm t_{(1-\alpha/2, n-2)} \cdot SE_{fit}
+\]</span></p>
+<p><span class="math display">\[
+        SE_{fit} = \sqrt{MSE \cdot \left(\frac{1}{n}+\frac{(x_h - \bar x)^2}{\sum(x_i - \bar x)^2}\right)}
+\]</span></p>
+<p><span class="math inline">\(SE_{fit}\)</span> can approach zero 0 due to missing “extra MSE” term.</p>
+</div>
+<div id="bayesian-credible-interval" class="section level1">
+<h1>Bayesian credible interval</h1>
+<ul>
+<li>interval associated with the posterior distribution of a parameter (parameters are random variables in Bayesian perspective). Similarity to prediction interval, but here the interval is concerned with a parameter value in contrast to the association with an observation when talking about prediction intervals.</li>
+</ul>
+</div>
+<div id="conformal-prediction-framework" class="section level1">
+<h1>Conformal prediction framework</h1>
+<ul>
+<li><p><a href="https://jmlr.org/papers/v9/shafer08a.html">Vovk et al. 2008</a>, more thorough treatment in <a href="https://link.springer.com/book/10.1007/b106715">‘Algorithmic Learning in a Random World’ by Vovk et al. (2005)</a>.</p></li>
+<li><p>Why? Validity of prediction intervals. The probability of excluding the correct target value is bounded by a predefined confidence level. It makes it possible to assess the uncertainty of each single prediction.</p></li>
+</ul>
+</div>
+<div id="regression-conformal-prediction-intervals" class="section level1">
+<h1>Regression conformal prediction intervals</h1>
+<ul>
+<li><a href="https://link.springer.com/article/10.1007/s10994-014-5453-0">Johansson et al. 2014</a></li>
+</ul>
+<div id="inductive-conformal-prediction" class="section level2">
+<h2>Inductive conformal prediction</h2>
 <p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
@@ -235,8 +281,10 @@ pre code {
 <p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Cmd+Shift+K</em> to preview the HTML file).</p>
 <p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
 <!-- rnb-text-end -->
+</div>
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29uZm9ybWFsIFByZWRpY3Rpb24gSW50ZXJ2YWxzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgoqIFJlZ3Jlc3Npb24gY29uZm9ybWFsIHByZWRpY3Rpb24gaW50ZXJ2YWxzCgpbSm9oYW5zc29uIGV0IGFsLiAyMDE0XShodHRwczovL2xpbmsuc3ByaW5nZXIuY29tL2FydGljbGUvMTAuMTAwNy9zMTA5OTQtMDE0LTU0NTMtMAopIE5vdGVib29rLiBXaGVuIHlvdSBleGVjdXRlIGNvZGUgd2l0aGluIHRoZSBub3RlYm9vaywgdGhlIHJlc3VsdHMgYXBwZWFyIGJlbmVhdGggdGhlIGNvZGUuIAoKVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkNtZCtTaGlmdCtFbnRlciouIAoKYGBge3J9CnBsb3QoY2FycykKYGBgCgpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ21kK09wdGlvbitJKi4KCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ21kK1NoaWZ0K0sqIHRvIHByZXZpZXcgdGhlIEhUTUwgZmlsZSkuIAoKVGhlIHByZXZpZXcgc2hvd3MgeW91IGEgcmVuZGVyZWQgSFRNTCBjb3B5IG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZWRpdG9yLiBDb25zZXF1ZW50bHksIHVubGlrZSAqS25pdCosICpQcmV2aWV3KiBkb2VzIG5vdCBydW4gYW55IFIgY29kZSBjaHVua3MuIEluc3RlYWQsIHRoZSBvdXRwdXQgb2YgdGhlIGNodW5rIHdoZW4gaXQgd2FzIGxhc3QgcnVuIGluIHRoZSBlZGl0b3IgaXMgZGlzcGxheWVkLgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29uZm9ybWFsIFByZWRpY3Rpb24gSW50ZXJ2YWxzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKZGF0ZTogIjIwMjEtMDQtMDEiCi0tLQoKClRoZXJlIGlzIGEgW2RpZmZlcmVuY2VdKGh0dHBzOi8vcm9iamh5bmRtYW4uY29tL2h5bmRzaWdodC9pbnRlcnZhbHMvKSBiZXR3ZWVuIHByZWRpY3Rpb24gYW5kIGNvbmZpZGVuY2UgaW50ZXJ2YWxzLiAKCiMgUHJlZGljdGlvbiBpbnRlcnZhbCBpbiBnZW5lcmFsCgotIGludGVydmFsIGFzc29jaWF0ZWQgd2l0aCBhIHJhbmRvbSB2YXJpYWJsZSB0aGF0IHdpbGwgYmUgb2JzZXJ2ZWQgaW4gZnV0dXJlIGFuZCB0aGUgc3BlY2lmaWMgcHJvYmFiaWxpdHkgb2YgdGhlIHJhbmRvbSB2YXJpYWJsZSBiZWluZyBzaXR1YXRlZCBpbiB0aGlzIGludGVydmFsCgpQcmVkaWN0aW9uIGludGVydmFsIGZvciAqKm5ldyoqIHJlc3BvbnNlOiAKJCQKCVxoYXQgeV9oIFxwbSB0X3soMS1cYWxwaGEvMiwgbi0yKX0gXGNkb3QgU0Vfe3ByZWR9CiQkCgkKJCQKCVNFX3twcmVkfSA9IFxzcXJ0e01TRSBcY2RvdCBcbGVmdCgxK1xmcmFjezF9e259K1xmcmFjeyh4X2ggLSBcYmFyIHgpXjJ9e1xzdW0oeF9pIC0gXGJhciB4KV4yfVxyaWdodCl9CiQkCgkJCgoKClByZWRpY3Rpb24gaW50ZXJ2YWwgYWx3YXlzIG5hcnJvd2VyIGR1ZSB0byAiZXh0cmEgTVNFIiB0ZXJtLiAKCiMgQ29uZmlkZW5jZSBpbnRlcnZhbCBpbiBnZW5lcmFsCgotIGZyZXF1ZW50aXN0IGNvbmNlcHQgY29uY2VybmVkIHdpdGggdGhlIHBvc2l0aW9uIG9mIHRoZSBub24tcmFuZG9tLCBidXQgdW5rbm93biBwYXJhbWV0ZXIgaW4gcmVsYXRpb24gdG8gdGhlIGludGVydmFsICgiY29udGFpbmluZyB0aGUgdHJ1ZSBwYXJhbWV0ZXIgd2l0aCBzb21lIHByb2JhYmlsaXR5LCBnaXZlbiBhIGxhcmdlIG51bWJlciBvZiByZXBlYXRlZCBzYW1wbGVzIikKCkNvbmZpZGVuY2UgaW50ZXJ2YWwgZm9yICoqbWVhbioqIHJlc3BvbnNlOiAKCiQkCgkJXGhhdCB5X2ggXHBtIHRfeygxLVxhbHBoYS8yLCBuLTIpfSBcY2RvdCBTRV97Zml0fQokJAoKCiQkCgkJU0Vfe2ZpdH0gPSBcc3FydHtNU0UgXGNkb3QgXGxlZnQoXGZyYWN7MX17bn0rXGZyYWN7KHhfaCAtIFxiYXIgeCleMn17XHN1bSh4X2kgLSBcYmFyIHgpXjJ9XHJpZ2h0KX0KJCQKCiRTRV97Zml0fSQgY2FuIGFwcHJvYWNoIHplcm8gMCBkdWUgdG8gbWlzc2luZyAiZXh0cmEgTVNFIiB0ZXJtLiAKCiMgQmF5ZXNpYW4gY3JlZGlibGUgaW50ZXJ2YWwKCi0gaW50ZXJ2YWwgYXNzb2NpYXRlZCB3aXRoIHRoZSBwb3N0ZXJpb3IgZGlzdHJpYnV0aW9uIG9mIGEgcGFyYW1ldGVyIChwYXJhbWV0ZXJzIGFyZSByYW5kb20gdmFyaWFibGVzIGluIEJheWVzaWFuIHBlcnNwZWN0aXZlKS4gU2ltaWxhcml0eSB0byBwcmVkaWN0aW9uIGludGVydmFsLCBidXQgaGVyZSB0aGUgaW50ZXJ2YWwgaXMgY29uY2VybmVkIHdpdGggYSBwYXJhbWV0ZXIgdmFsdWUgaW4gY29udHJhc3QgdG8gdGhlIGFzc29jaWF0aW9uIHdpdGggYW4gb2JzZXJ2YXRpb24gd2hlbiB0YWxraW5nIGFib3V0IHByZWRpY3Rpb24gaW50ZXJ2YWxzLiAKCgoKIyBDb25mb3JtYWwgcHJlZGljdGlvbiBmcmFtZXdvcmsKCiogW1ZvdmsgZXQgYWwuIDIwMDhdKGh0dHBzOi8vam1sci5vcmcvcGFwZXJzL3Y5L3NoYWZlcjA4YS5odG1sKSwgbW9yZSB0aG9yb3VnaCB0cmVhdG1lbnQgaW4gWydBbGdvcml0aG1pYyAgTGVhcm5pbmcgaW4gYSBSYW5kb20gV29ybGQnIGJ5IFZvdmsgZXQgYWwuICgyMDA1KV0oaHR0cHM6Ly9saW5rLnNwcmluZ2VyLmNvbS9ib29rLzEwLjEwMDcvYjEwNjcxNSkuIAoKCgotIFdoeT8gVmFsaWRpdHkgb2YgcHJlZGljdGlvbiBpbnRlcnZhbHMuIFRoZSBwcm9iYWJpbGl0eSBvZiBleGNsdWRpbmcgdGhlIGNvcnJlY3QgdGFyZ2V0IHZhbHVlIGlzIGJvdW5kZWQgYnkgYSBwcmVkZWZpbmVkIGNvbmZpZGVuY2UgbGV2ZWwuIEl0IG1ha2VzIGl0IHBvc3NpYmxlIHRvIGFzc2VzcyB0aGUgdW5jZXJ0YWludHkgb2YgZWFjaCBzaW5nbGUgcHJlZGljdGlvbi4KCgojIFJlZ3Jlc3Npb24gY29uZm9ybWFsIHByZWRpY3Rpb24gaW50ZXJ2YWxzCgoqIFtKb2hhbnNzb24gZXQgYWwuIDIwMTRdKGh0dHBzOi8vbGluay5zcHJpbmdlci5jb20vYXJ0aWNsZS8xMC4xMDA3L3MxMDk5NC0wMTQtNTQ1My0wCikgCgojIyBJbmR1Y3RpdmUgY29uZm9ybWFsIHByZWRpY3Rpb24gCgoKVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkNtZCtTaGlmdCtFbnRlciouIAoKYGBge3J9CnBsb3QoY2FycykKYGBgCgpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ21kK09wdGlvbitJKi4KCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ21kK1NoaWZ0K0sqIHRvIHByZXZpZXcgdGhlIEhUTUwgZmlsZSkuIAoKVGhlIHByZXZpZXcgc2hvd3MgeW91IGEgcmVuZGVyZWQgSFRNTCBjb3B5IG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZWRpdG9yLiBDb25zZXF1ZW50bHksIHVubGlrZSAqS25pdCosICpQcmV2aWV3KiBkb2VzIG5vdCBydW4gYW55IFIgY29kZSBjaHVua3MuIEluc3RlYWQsIHRoZSBvdXRwdXQgb2YgdGhlIGNodW5rIHdoZW4gaXQgd2FzIGxhc3QgcnVuIGluIHRoZSBlZGl0b3IgaXMgZGlzcGxheWVkLgoK</div>
 
 
 

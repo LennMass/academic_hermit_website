@@ -6,6 +6,7 @@ theme: hermit
 pygmentsCodefences: yes
 pygmentsUseClasses: yes
 rssLimit: 10
+ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$"]
 copyright: This work is licensed under a Creative Commons Attribution-NonCommercial
   4.0 International License.
 enableEmoji: yes
@@ -42,3 +43,8 @@ menu:
     - name: CV
       url: my_cv/
       weight: 20
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
