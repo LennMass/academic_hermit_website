@@ -1,0 +1,140 @@
+---
+title: "Conformal Prediction Intervals"
+output: html_notebook
+date: "2021-04-01"
+---
+
+
+
+<div id="general-useful-resources" class="section level1">
+<h1>General useful resources</h1>
+<ul>
+<li><a href="https://github.com/valeman/awesome-conformal-prediction" class="uri">https://github.com/valeman/awesome-conformal-prediction</a></li>
+<li><a href="https://github.com/ryantibs/conformal" class="uri">https://github.com/ryantibs/conformal</a></li>
+</ul>
+<p>There is a <a href="https://robjhyndman.com/hyndsight/intervals/">difference</a> between prediction and confidence intervals.</p>
+</div>
+<div id="prediction-interval-in-general" class="section level1">
+<h1>Prediction interval in general</h1>
+<ul>
+<li>interval associated with a random variable that will be observed in future and the specific probability of the random variable being situated in this interval</li>
+</ul>
+<p>Prediction interval for <strong>new</strong> response:
+<span class="math display">\[
+    \hat y_h \pm t_{(1-\alpha/2, n-2)} \cdot SE_{pred}
+\]</span></p>
+<p><span class="math display">\[
+    SE_{pred} = \sqrt{MSE \cdot \left(1+\frac{1}{n}+\frac{(x_h - \bar x)^2}{\sum(x_i - \bar x)^2}\right)}
+\]</span></p>
+<p>Prediction interval always narrower due to “extra MSE” term.</p>
+</div>
+<div id="confidence-interval-in-general" class="section level1">
+<h1>Confidence interval in general</h1>
+<ul>
+<li>frequentist concept concerned with the position of the non-random, but unknown parameter in relation to the interval (“containing the true parameter with some probability, given a large number of repeated samples”)</li>
+</ul>
+<p>Confidence interval for <strong>mean</strong> response:</p>
+<p><span class="math display">\[
+        \hat y_h \pm t_{(1-\alpha/2, n-2)} \cdot SE_{fit}
+\]</span></p>
+<p><span class="math display">\[
+        SE_{fit} = \sqrt{MSE \cdot \left(\frac{1}{n}+\frac{(x_h - \bar x)^2}{\sum(x_i - \bar x)^2}\right)}
+\]</span></p>
+<p><span class="math inline">\(SE_{fit}\)</span> can approach zero 0 due to missing “extra MSE” term.</p>
+</div>
+<div id="bayesian-credible-interval" class="section level1">
+<h1>Bayesian credible interval</h1>
+<ul>
+<li>interval associated with the posterior distribution of a parameter (parameters are random variables in Bayesian perspective). Similarity to prediction interval, but here the interval is concerned with a parameter value in contrast to the association with an observation when talking about prediction intervals.</li>
+</ul>
+</div>
+<div id="conformal-prediction-framework" class="section level1">
+<h1>Conformal prediction framework</h1>
+<ul>
+<li><p><a href="https://jmlr.org/papers/v9/shafer08a.html">Vovk et al. 2008</a>, more thorough treatment in <a href="https://link.springer.com/book/10.1007/b106715">‘Algorithmic Learning in a Random World’ by Vovk et al. (2005)</a>.</p></li>
+<li><p>Why? Validity of prediction intervals. The probability of excluding the correct target value is bounded by a predefined confidence level. It makes it possible to assess the uncertainty of each single prediction.</p></li>
+</ul>
+</div>
+<div id="regression-conformal-prediction-intervals" class="section level1">
+<h1>Regression conformal prediction intervals</h1>
+<ul>
+<li><a href="https://link.springer.com/article/10.1007/s10994-014-5453-0">Johansson et al. 2014</a></li>
+</ul>
+<div id="inductive-conformal-prediction" class="section level2">
+<h2>Inductive conformal prediction</h2>
+<p>3-Step-Procedure:</p>
+<ol style="list-style-type: decimal">
+<li>Divide training set into two disjoint sets
+<ul>
+<li>proper training set <span class="math inline">\(Z^t\)</span></li>
+<li>calibration set <span class="math inline">\(Z^C\)</span></li>
+</ul></li>
+<li>Train the model using proper training set</li>
+<li>For each calibration instance:
+<ul>
+<li>predict output</li>
+<li>calculate non-conformity score <span class="math inline">\(\alpha_i=|y_i - \hat y_i|\)</span></li>
+</ul></li>
+<li>Calculate the prediction region:</li>
+</ol>
+<p><span class="math display">\[
+\hat Y_j^{\delta} = \hat y_j  \pm \alpha_{s(\delta)}
+\]</span></p>
+<p>with the smallest <span class="math inline">\(\alpha_{s(\delta)} \in S\)</span> satisfying the equation</p>
+<p><span class="math display">\[
+\frac{\#\{z_i \in Z^C | \alpha_i &lt; \alpha_{s(\delta)}+1 \}}{|Z^C|+1} \geq 1-\delta
+\]</span></p>
+<p>Let’s generate some data based on the Friedman-problem from the <code>mlbench</code>-package.</p>
+<pre class="r"><code>dat_frame  &lt;- mlbench::mlbench.friedman1(n = 1000, sd = 1)
+
+# independent variables
+summary(dat_frame$x)</code></pre>
+<pre><code>##        V1                  V2                 V3                 V4         
+##  Min.   :0.0009207   Min.   :0.001313   Min.   :0.001039   Min.   :0.00101  
+##  1st Qu.:0.2225791   1st Qu.:0.264841   1st Qu.:0.250100   1st Qu.:0.25345  
+##  Median :0.4941226   Median :0.511599   Median :0.498416   Median :0.48735  
+##  Mean   :0.4971029   Mean   :0.508594   Mean   :0.507718   Mean   :0.50009  
+##  3rd Qu.:0.7592803   3rd Qu.:0.749514   3rd Qu.:0.764922   3rd Qu.:0.74386  
+##  Max.   :0.9984189   Max.   :0.998017   Max.   :0.999111   Max.   :0.99979  
+##        V5                  V6                  V7           
+##  Min.   :0.0001884   Min.   :0.0004413   Min.   :0.0004214  
+##  1st Qu.:0.2583520   1st Qu.:0.2425897   1st Qu.:0.2327435  
+##  Median :0.5238316   Median :0.5058739   Median :0.5010307  
+##  Mean   :0.5085474   Mean   :0.4971102   Mean   :0.4894323  
+##  3rd Qu.:0.7447571   3rd Qu.:0.7443808   3rd Qu.:0.7314216  
+##  Max.   :0.9995007   Max.   :0.9977184   Max.   :0.9997687  
+##        V8                  V9                 V10           
+##  Min.   :0.0007279   Min.   :0.0000219   Min.   :0.0003497  
+##  1st Qu.:0.2234234   1st Qu.:0.2398594   1st Qu.:0.2170018  
+##  Median :0.4536759   Median :0.4697370   Median :0.4661777  
+##  Mean   :0.4762658   Mean   :0.4795978   Mean   :0.4733452  
+##  3rd Qu.:0.7341672   3rd Qu.:0.7174949   3rd Qu.:0.7193777  
+##  Max.   :0.9984816   Max.   :0.9987125   Max.   :0.9963931</code></pre>
+<pre class="r"><code># dependent variable
+summary(dat_frame$y)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.995  11.043  14.542  14.583  17.976  28.158</code></pre>
+<pre class="r"><code># 
+library(PerformanceAnalytics)</code></pre>
+<pre><code>## Lade nötiges Paket: xts</code></pre>
+<pre><code>## Lade nötiges Paket: zoo</code></pre>
+<pre><code>## 
+## Attache Paket: &#39;zoo&#39;</code></pre>
+<pre><code>## Die folgenden Objekte sind maskiert von &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## 
+## Attache Paket: &#39;PerformanceAnalytics&#39;</code></pre>
+<pre><code>## Das folgende Objekt ist maskiert &#39;package:graphics&#39;:
+## 
+##     legend</code></pre>
+<pre class="r"><code>chart.Correlation(dat_frame$x, histogram=TRUE, pch=19)</code></pre>
+<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
+<pre class="r"><code>plot(cars)</code></pre>
+<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Cmd+Option+I</em>.</p>
+<p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Cmd+Shift+K</em> to preview the HTML file).</p>
+<p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
+</div>
+</div>

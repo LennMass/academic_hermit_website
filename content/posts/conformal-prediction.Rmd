@@ -4,6 +4,12 @@ output: html_notebook
 date: "2021-04-01"
 ---
 
+# General useful resources
+
+- https://github.com/valeman/awesome-conformal-prediction
+- https://github.com/ryantibs/conformal
+
+
 
 There is a [difference](https://robjhyndman.com/hyndsight/intervals/) between prediction and confidence intervals. 
 
@@ -62,7 +68,66 @@ $SE_{fit}$ can approach zero 0 due to missing "extra MSE" term.
 * [Johansson et al. 2014](https://link.springer.com/article/10.1007/s10994-014-5453-0
 ) 
 
-## Inductive conformal prediction 
+## Inductive conformal prediction
+
+3-Step-Procedure:
+
+1. Divide training set into two disjoint sets
+	- proper training set $Z^t$
+	- calibration set $Z^C$
+2. Train the model using proper training set
+3. For each calibration instance: 
+	- predict output
+	- calculate non-conformity score $\alpha_i=|y_i - \hat y_i|$
+
+4. Calculate the prediction region: 
+
+$$
+\hat Y_j^{\delta} = \hat y_j  \pm \alpha_{s(\delta)}
+$$
+
+with the smallest $\alpha_{s(\delta)} \in S$ satisfying the equation
+
+$$
+\frac{\#\{z_i \in Z^C | \alpha_i < \alpha_{s(\delta)}+1 \}}{|Z^C|+1} \geq 1-\delta
+$$
+
+Let's generate some data based on the Friedman-problem from the `mlbench`-package and explore the data in a principled way.  
+
+```{r}
+
+library(tidyverse)
+library(reshape2)
+
+
+dat_frame  <- mlbench::mlbench.friedman1(n = 1000, sd = 1) 
+dat_x  <- dat_frame$x %>% 
+	as_tibble()
+dat_y <- dat_frame$y %>% 
+	as_tibble()
+
+# independent variables
+summary(dat_x)
+
+# dependent variable
+summary(dat_y)
+
+# boxplots
+boxplot(dat_x)
+
+# density plots of vars
+
+#Convert wide to long
+melt.x <- reshape2::melt(dat_x)
+
+# plot densities
+ggplot(data = melt.x, aes(x = value)) + 
+	geom_histogram() + 
+	facet_wrap(~variable, scales = "free")
+
+
+```
+
 
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
