@@ -1,17 +1,8 @@
 ---
 date: "2014-04-09"
-title: About Hugo
+title: About
 ---
 
-Hugo is the **world’s fastest framework for building websites**. It is written in Go.
+This is the website of Lennard Maßmann, I am a PhD student in Econometrics interested in the fields of Causal Inference, Bayesian Statistics, Conformal Prediction and Machine Learning. For more personal information, have a look into my latest CV.  
 
-It makes use of a variety of open source projects including:
-
-* https://github.com/russross/blackfriday
-* https://github.com/alecthomas/chroma
-* https://github.com/muesli/smartcrop
-* https://github.com/spf13/cobra
-* https://github.com/spf13/viper
-
-Learn more and contribute on [GitHub](https://github.com/gohugoio).
 

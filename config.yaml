@@ -32,17 +32,17 @@ params:
       url: https://www.linkedin.com/in/lennard-ma%C3%9Fmann-67a0341a5/
     - name: github
       url: https://github.com/LennMass
-  themeColor: '#494f5c'
+  themeColor: '#144e99'  #494f5c
 menu:
   main:
-    - name: Posts
-      url: posts/
-      weight: 10
     - name: About
       url: about-hugo/
       weight: 20
     - name: CV
       url: my_cv/
+      weight: 20
+    - name: Posts
+      url: posts/
       weight: 20
 
 # this was a tip when running blogdown::check_site()
