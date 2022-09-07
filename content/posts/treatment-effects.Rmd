@@ -1,0 +1,87 @@
+---
+title: "Treatment Effects"
+author: "Lennard Maßmann"
+date: "5/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Lei et al. arxiv paper on conformal inference of ITEs and counterfactuals. 
+
+# Individual Treatment Effect
+
+$$
+\tau_i = Y_i(T_i=1) - Y_i(T_i=0) 
+$$
+
+with
+
+$$
+Y^{obs} = 
+\begin{cases}
+  Y_i(1)  \text{, if } T_i = 1\\    
+  Y_i(0)  \text{, if } T_i = 0
+\end{cases}
+$$
+
+
+
+
+- ITE unobserved by definition as we only observe one of the two potential outcomes. 
+
+```{r}
+
+```
+
+
+# Average Treatment Effect
+
+
+
+# Conditional Average Treatment Effect
+
+$$
+\tau(x) = \mathbb{E}[Y_i(T_i=1) - Y_i(T_i=0)|X=x] 
+$$
+
+Under **strong ignorability**, one can show that: 
+
+$$
+\tau(x) = \mathbb{E}[Y^{obs}|X=x, T=1] - \mathbb{E}[Y^{obs}|X=x, T=0]
+$$
+Estimation problem reduces to that of estimating certain conditional expectations. Computing reliable confidence bands difficult (finite samples, high dimensions)
+
+- Expectation of ITE conditional on covariate values
+
+- more detailed summary than ATE but: variance conditional on covariates not interpreted (crucial if we assume that covariates do not explain away all variation in ITE)
+
+- Concern: 
+	+ variability of response around reg function
+	+ variability of CATE estimators due to finite samples
+	
+Therefore, we need **at the same time**: 
+
+- many covariates to justify enough variability in response
+- perfect estimate of CATE for every value of covariate
+
+Both unrealistic in real world setting. 
+
+
+# Quantile Treatment Effect
+
+Powell (2020) and Fort (2016). 
+
+$$
+\tau(q) = F^{-1}_{Y(1)}(q) - F^{-1}_{Y(0)}(q) \text{ , } q \in [0,1]
+$$
+
+See `qte`-package.
+
+ 
+
+
+
+

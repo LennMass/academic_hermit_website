@@ -1,0 +1,78 @@
+---
+title: "Causal Frameworks"
+output:
+  html_document:
+    df_print: paged
+date: '2021-04-21'
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+New paper on [Causality and Econometrics](https://www.nber.org/papers/w29787) comparing three main different frameworks for causal analysis. 
+
+# Causality and the task of causal inference
+
+## General thoughts 
+
+Mapping $g$ connecting inputs X (which may contain unobservables) to outcomes $Y$: 
+$$
+g: X \rightarrow Y \text{ over the domain of } X 
+$$
+
+- $g$ needs to be **stable**: **invariance/autonomy** of relationships
+
+- $g$ needs to be **directional**
+
+- $g$ may be a function or a correspondence (for the difference see for instance [here](https://sites.pitt.edu/~luca/ECON2001/lecture_06.pdf)) 
+
+- range of $Y$ is a set of **potential outcomes** associated with $X$ over its domain
+
+- topics of identification and estimation of causal effects (ceteris paribus effecst) are independent of defining causality but needed to make it empirically operational
+
+## Econometric approach to causality
+
+Four distinct classes of **policy problems**: 
+
+- Evaluating impacts of implemented interventions on outcomes in a given environment. Does a specific program in place work in terms of policy impacts? (PO framework and do-calculus are mostly focused on these type of questions)
+
+- Understanding the mechanisms producing treatment effects and policy outcomes
+
+- Forecasting the impacts of interventions implemented under one environment when the intervention is applied to other environments
+
+- Forecasting the impacts  of intervetions never previously implemented to various environments
+
+Three **tasks** of econometric causal policy analysis: 
+
+- Model Creation: define counterfactuals (scientific modeling theory) 
+
+- Identification: identify parameters from hypothetical population through point/set identification (probability theory)
+
+- Estimation: estimate parameters from real data (statistical analysis) 
+
+
+
+
+
+# Three causal frameworks
+
+## Econometric causal model
+
+
+## Neyman-Rubin-Holland causal model (potential outcome framework) - statistics view
+
+- Drawbacks: 
+	+ does not readily incorporate unobservables and restrictions on empirical relationships produced by economic theory that are important components of the econometric toolkit
+	+ Social interactions, peer effects, and general equilibrium theory fall outside its purview and are currently considered frontier-topics
+	
+
+## do-calculus and directed acyclic graphs - computer science view
+
+- Drawbacks: 
+	+ cannot deal with the functional restrictions and covariance information routinely used in econometrics
+	+ It cannot accommodate assumptions such as monotonicity and the separability restrictions that are essential components of the modern instrumental variable analysis. 
+	+ The prototypical Generalized Roy model cannot be identified with do-calculus, although it, and more general models, can be identified using standard econometric tools. 
+
+
+

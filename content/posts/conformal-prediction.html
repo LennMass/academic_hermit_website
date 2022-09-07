@@ -1,7 +1,9 @@
 ---
 title: "Conformal Prediction Intervals"
-output: html_notebook
-date: "2021-04-01"
+output:
+  html_document:
+    df_print: paged
+date: '2021-04-01'
 ---
 
 
@@ -11,6 +13,7 @@ date: "2021-04-01"
 <ul>
 <li><a href="https://github.com/valeman/awesome-conformal-prediction" class="uri">https://github.com/valeman/awesome-conformal-prediction</a></li>
 <li><a href="https://github.com/ryantibs/conformal" class="uri">https://github.com/ryantibs/conformal</a></li>
+<li><a href="https://cdsamii.github.io/cds-demos/conformal/conformal-tutorial.html" class="uri">https://cdsamii.github.io/cds-demos/conformal/conformal-tutorial.html</a></li>
 </ul>
 <p>There is a <a href="https://robjhyndman.com/hyndsight/intervals/">difference</a> between prediction and confidence intervals.</p>
 </div>
@@ -53,6 +56,42 @@ date: "2021-04-01"
 <ul>
 <li><p><a href="https://jmlr.org/papers/v9/shafer08a.html">Vovk et al. 2008</a>, more thorough treatment in <a href="https://link.springer.com/book/10.1007/b106715">‘Algorithmic Learning in a Random World’ by Vovk et al. (2005)</a>.</p></li>
 <li><p>Why? Validity of prediction intervals. The probability of excluding the correct target value is bounded by a predefined confidence level. It makes it possible to assess the uncertainty of each single prediction.</p></li>
+<li><p>Key appeal of conformal inference? finite-sample coverage also in high dimensions.</p></li>
+</ul>
+</div>
+<div id="naive-prediction-intervals" class="section level1">
+<h1>Naive prediction intervals</h1>
+<p><span class="math display">\[
+C_{naive}(X_{n+1}) = \left[ \hat\mu(X_{n+1}) - \hat F_n^{-1}(1-\alpha), \hat\mu(X_{n+1}) + \hat F_n^{-1}(1-\alpha)   \right] 
+\]</span></p>
+<p>with</p>
+<p><span class="math inline">\(\hat\mu(X_{n+1})\)</span> : estimator of underlying regression function</p>
+<p><span class="math inline">\(\hat F_n\)</span> : empirical distribution of fitted residuals <span class="math inline">\(|Y_i - \hat \mu(X_i)|\)</span></p>
+<p><span class="math inline">\(\hat F_n^{-1}(1-\alpha)\)</span> : <span class="math inline">\((1-\alpha)\)</span>-quantile of <span class="math inline">\(\hat F_n\)</span></p>
+<p>When does <span class="math inline">\(C_{naive}\)</span> have approximate validity in large samples?</p>
+<ul>
+<li>estimated reg. func. <span class="math inline">\(\hat \mu\)</span> is accurate (<span class="math inline">\(\hat F_n^{-1}(1-\alpha)\)</span> close enough to <span class="math inline">\((1-\alpha)\)</span>-quantile of pop. resid. <span class="math inline">\(|Y_i - \mu(X_i)\)</span>)</li>
+</ul>
+<p>When is <span class="math inline">\(\hat \mu\)</span> accurate enough?</p>
+<ul>
+<li>regularity conditions on underlying data dist. <span class="math inline">\(P\)</span></li>
+<li>regularity conditions on <span class="math inline">\(\hat \mu\)</span> (no misspecified model, appropriate tuning param. choice)</li>
+</ul>
+<p>When/why does <span class="math inline">\(C_{naive}\)</span> fail?</p>
+<ul>
+<li>Fitted residual distirbution <span class="math inline">\(\hat F_n\)</span> often biased downward, hence <span class="math inline">\(C_{naive}\)</span> undercovers the true prediction interval (see for instance <a href="https://doi.org/10.1080/01621459.2017.1307116">Romero et al. 2019</a>, <a href="http://arxiv.org/abs/1909.07889">Chernozhukov et al. 2021</a>)</li>
+</ul>
+<p>What is the benefit of conformal prediction intervals?</p>
+<ul>
+<li>proper finite-sample coverage without any assumptions on
+<ul>
+<li>data distribution <span class="math inline">\(P\)</span></li>
+<li>estimator <span class="math inline">\(\hat \mu\)</span> (except being a symmetric function of data points)</li>
+</ul></li>
+</ul>
+<p>Can be verified by the following <strong>Theorem 1</strong>:</p>
+<ul>
+<li></li>
 </ul>
 </div>
 <div id="regression-conformal-prediction-intervals" class="section level1">
@@ -62,6 +101,7 @@ date: "2021-04-01"
 </ul>
 <div id="inductive-conformal-prediction" class="section level2">
 <h2>Inductive conformal prediction</h2>
+<p>The basic procedure can be explained as in derived in Johansson et al. (2014).</p>
 <p>3-Step-Procedure:</p>
 <ol style="list-style-type: decimal">
 <li>Divide training set into two disjoint sets
@@ -84,57 +124,118 @@ date: "2021-04-01"
 <p><span class="math display">\[
 \frac{\#\{z_i \in Z^C | \alpha_i &lt; \alpha_{s(\delta)}+1 \}}{|Z^C|+1} \geq 1-\delta
 \]</span></p>
-<p>Let’s generate some data based on the Friedman-problem from the <code>mlbench</code>-package.</p>
-<pre class="r"><code>dat_frame  &lt;- mlbench::mlbench.friedman1(n = 1000, sd = 1)
-
-# independent variables
-summary(dat_frame$x)</code></pre>
-<pre><code>##        V1                  V2                 V3                 V4         
-##  Min.   :0.0009207   Min.   :0.001313   Min.   :0.001039   Min.   :0.00101  
-##  1st Qu.:0.2225791   1st Qu.:0.264841   1st Qu.:0.250100   1st Qu.:0.25345  
-##  Median :0.4941226   Median :0.511599   Median :0.498416   Median :0.48735  
-##  Mean   :0.4971029   Mean   :0.508594   Mean   :0.507718   Mean   :0.50009  
-##  3rd Qu.:0.7592803   3rd Qu.:0.749514   3rd Qu.:0.764922   3rd Qu.:0.74386  
-##  Max.   :0.9984189   Max.   :0.998017   Max.   :0.999111   Max.   :0.99979  
-##        V5                  V6                  V7           
-##  Min.   :0.0001884   Min.   :0.0004413   Min.   :0.0004214  
-##  1st Qu.:0.2583520   1st Qu.:0.2425897   1st Qu.:0.2327435  
-##  Median :0.5238316   Median :0.5058739   Median :0.5010307  
-##  Mean   :0.5085474   Mean   :0.4971102   Mean   :0.4894323  
-##  3rd Qu.:0.7447571   3rd Qu.:0.7443808   3rd Qu.:0.7314216  
-##  Max.   :0.9995007   Max.   :0.9977184   Max.   :0.9997687  
-##        V8                  V9                 V10           
-##  Min.   :0.0007279   Min.   :0.0000219   Min.   :0.0003497  
-##  1st Qu.:0.2234234   1st Qu.:0.2398594   1st Qu.:0.2170018  
-##  Median :0.4536759   Median :0.4697370   Median :0.4661777  
-##  Mean   :0.4762658   Mean   :0.4795978   Mean   :0.4733452  
-##  3rd Qu.:0.7341672   3rd Qu.:0.7174949   3rd Qu.:0.7193777  
-##  Max.   :0.9984816   Max.   :0.9987125   Max.   :0.9963931</code></pre>
-<pre class="r"><code># dependent variable
-summary(dat_frame$y)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   1.995  11.043  14.542  14.583  17.976  28.158</code></pre>
-<pre class="r"><code># 
-library(PerformanceAnalytics)</code></pre>
-<pre><code>## Lade nötiges Paket: xts</code></pre>
-<pre><code>## Lade nötiges Paket: zoo</code></pre>
-<pre><code>## 
-## Attache Paket: &#39;zoo&#39;</code></pre>
-<pre><code>## Die folgenden Objekte sind maskiert von &#39;package:base&#39;:
-## 
-##     as.Date, as.Date.numeric</code></pre>
-<pre><code>## 
-## Attache Paket: &#39;PerformanceAnalytics&#39;</code></pre>
-<pre><code>## Das folgende Objekt ist maskiert &#39;package:graphics&#39;:
-## 
-##     legend</code></pre>
-<pre class="r"><code>chart.Correlation(dat_frame$x, histogram=TRUE, pch=19)</code></pre>
-<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
-<pre class="r"><code>plot(cars)</code></pre>
-<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Cmd+Option+I</em>.</p>
-<p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Cmd+Shift+K</em> to preview the HTML file).</p>
-<p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
 </div>
+<div id="naive-inductive-conformal-prediction-bands" class="section level2">
+<h2>Naive Inductive Conformal Prediction Bands</h2>
+<p>Notation is based on the paper of Lei et al. (2017) which is called <a href="https://arxiv.org/pdf/1604.04173.pdf">Distribution-Free Predictive Inference For Regression</a>.</p>
+<p>Under the assumption of exchangeability (weaker assumption compared to the stricter i.i.d assumption) for <span class="math inline">\(U_1, ..., U_n \sim P\)</span>,
+we have, that the probability of a new sample instance <span class="math inline">\(U_{n+1}\)</span> being smaller/equal compared to the sample quantile based on <span class="math inline">\(U_1, ..., U_n\)</span> is larger than <span class="math inline">\(1-\)</span> the miscoverage level <span class="math inline">\(\alpha\)</span>:</p>
+<p><span class="math display">\[
+\mathbb{P}(U_{n+1} \leq \hat q_{1-\alpha}) \geq 1- \alpha
+\]</span></p>
+<p>What is the probability that the new sample instance <span class="math inline">\(U_{n+1}\)</span> exceeds some</p>
+<pre class="r"><code>set.seed(1234)
+n &lt;- 10000
+u_samp &lt;- rnorm(n)
+x_samp &lt;- rnorm(n)
+y &lt;- x_samp + u_samp
+hist(u_samp)</code></pre>
+<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>hist(x_samp)</code></pre>
+<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<pre class="r"><code>hist(y)</code></pre>
+<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<p>Let’s generate some data based on the Friedman-problem from the <code>mlbench</code>-package and explore the data in a principled way.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.6     ✓ dplyr   1.0.8
+## ✓ tidyr   1.2.0     ✓ stringr 1.4.0
+## ✓ readr   2.1.2     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(reshape2)</code></pre>
+<pre><code>## 
+## Attache Paket: &#39;reshape2&#39;</code></pre>
+<pre><code>## Das folgende Objekt ist maskiert &#39;package:tidyr&#39;:
+## 
+##     smiths</code></pre>
+<pre class="r"><code>set.seed(1234)
+
+
+dat_frame  &lt;- mlbench::mlbench.friedman1(n = 1000, sd = 1) 
+dat_x  &lt;- dat_frame$x %&gt;% 
+    as_tibble()</code></pre>
+<pre><code>## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.
+## Using compatibility `.name_repair`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<pre class="r"><code>dat_y &lt;- dat_frame$y %&gt;% 
+    as_tibble()
+
+dat &lt;- cbind(dat_y, dat_x)
+
+# summary statistics
+summary(dat)</code></pre>
+<pre><code>##      value              V1                  V2                 V3          
+##  Min.   : 1.858   Min.   :0.0003418   Min.   :0.001826   Min.   :0.001692  
+##  1st Qu.:10.678   1st Qu.:0.2581589   1st Qu.:0.243705   1st Qu.:0.267942  
+##  Median :14.260   Median :0.5101924   Median :0.483464   Median :0.520010  
+##  Mean   :14.409   Mean   :0.5072735   Mean   :0.486289   Mean   :0.511756  
+##  3rd Qu.:18.171   3rd Qu.:0.7584385   3rd Qu.:0.721874   3rd Qu.:0.752492  
+##  Max.   :29.204   Max.   :0.9993030   Max.   :0.996898   Max.   :0.998760  
+##        V4                  V5                  V6                 V7          
+##  Min.   :0.0008994   Min.   :0.0009852   Min.   :0.002494   Min.   :0.001171  
+##  1st Qu.:0.2501172   1st Qu.:0.2535772   1st Qu.:0.247148   1st Qu.:0.258111  
+##  Median :0.4776560   Median :0.5118877   Median :0.498494   Median :0.518469  
+##  Mean   :0.4959910   Mean   :0.5058356   Mean   :0.498387   Mean   :0.508545  
+##  3rd Qu.:0.7404096   3rd Qu.:0.7560839   3rd Qu.:0.745495   3rd Qu.:0.754655  
+##  Max.   :0.9992324   Max.   :0.9987464   Max.   :0.999594   Max.   :0.996565  
+##        V8                  V9                V10          
+##  Min.   :0.0006404   Min.   :0.001108   Min.   :0.004584  
+##  1st Qu.:0.2517412   1st Qu.:0.251497   1st Qu.:0.242652  
+##  Median :0.4950348   Median :0.497337   Median :0.495395  
+##  Mean   :0.4933710   Mean   :0.501156   Mean   :0.494519  
+##  3rd Qu.:0.7354565   3rd Qu.:0.749633   3rd Qu.:0.746174  
+##  Max.   :0.9990955   Max.   :0.996211   Max.   :0.996519</code></pre>
+<pre class="r"><code># boxplots
+boxplot(dat$value)</code></pre>
+<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>boxplot(dat[,2:11])</code></pre>
+<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<pre class="r"><code># density plots of vars
+
+#Convert wide to long
+melt.dat &lt;- reshape2::melt(dat)</code></pre>
+<pre><code>## No id variables; using all as measure variables</code></pre>
+<pre class="r"><code># plot densities
+ggplot(data = melt.dat, aes(x = value)) + 
+    geom_histogram() + 
+    facet_wrap(~variable, scales = &quot;free&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/posts/conformal-prediction_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
+<pre class="r"><code># divide into training and test
+train.index &lt;- sample(nrow(dat), nrow(dat)*0.75)
+
+train.dat &lt;- dat[train.index, ]
+test.dat &lt;- dat[-train.index, ]
+
+true.train.index &lt;- sample(nrow(train.dat), nrow(train.dat)*0.75)
+
+true.train.dat &lt;- train.dat[true.train.index, ]
+validate.dat &lt;- train.dat[-true.train.index, ]</code></pre>
+</div>
+<div id="model-free-bootstrap-prediction-intervals" class="section level2">
+<h2>model-free bootstrap prediction intervals</h2>
+</div>
+<div id="distributional-conformal-prediction" class="section level2">
+<h2>distributional conformal prediction</h2>
+</div>
+</div>
+<div id="wang-politis-2022---model-free-bootstrap-and-conformal-prediction-in-regression" class="section level1">
+<h1>Wang / Politis (2022) - Model-free Bootstrap and Conformal Prediction in Regression</h1>
+</div>
+<div id="tower-property-where-is-the-proof-derive-it." class="section level1">
+<h1>Tower property? Where is the proof? Derive it.</h1>
 </div>

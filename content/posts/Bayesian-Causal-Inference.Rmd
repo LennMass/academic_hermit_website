@@ -1,0 +1,48 @@
+---
+title: "Bayesian Causal Inference"
+author: "Lennard Maßmann"
+date: "5/16/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is based on the Bayesian Causal Inference Workshop of Fan Li, slide deck can be found [here](https://mbi.osu.edu/sites/default/files/2019-07/bayesian_causal_tutorial_ohiostate_june2019.pdf). 
+
+# Causality and statistics
+
+Different aspects of how to answer questions about causation in general:
+
+- **philosophical**: meaningfulness/notion of causality
+- **deduction**: what are the causes of a given effect?
+- **causal mechanism**: detailed understanding
+
+Statistics can contribute most to the dimension of *measuring effects of causes*. Their exist three main statistical frameworks in economics: 
+
+- graphical models (S. Wright, J. Pearl)
+- structural equations (S. Wright, T. Haavelmo, J. Heckman)
+- potential outcomes (J. Neyman, D.B. Rubin)
+
+
+We will focus on potential outcomes due to its widespread use across disciplines. Generally, statistics can be facilitated for the process of causal inference, where one wants to infer effects from data.  
+
+# Causal infernece
+
+## Experimental 
+
+Fischer, Cox, Cochrane
+
+## Observational
+
+Neyman, Rubin, Robins, Dawid, Pearl
+
+## Data Fusion
+
+[Causal Inference and the Data-Fusion Problem](https://www.pnas.org/doi/10.1073/pnas.1510507113)
+
+# Graphical models
+
+Directed graphs can be originally dated back to Sewall Wright's [paper](https://naldc.nal.usda.gov/download/IND43966364/PDF) about "Correlation and Causation" where directed graphs have been used first to create hypotheses of causal links and check them with data. 
+

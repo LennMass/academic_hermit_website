@@ -1,0 +1,17 @@
+---
+title: "Research ideas"
+output:
+  html_document:
+    df_print: paged
+date: '2021-04-21'
+---
+
+
+# Ideas
+
+- BCF and other BART versions for causal inference: Performance in non-overlap regions (see BCF discussion part of Origin and Roy!, and also Dominici-paper section 4.3 !!)
+
+
+
+- 
+

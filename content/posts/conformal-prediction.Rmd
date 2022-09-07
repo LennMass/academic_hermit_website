@@ -1,13 +1,17 @@
 ---
 title: "Conformal Prediction Intervals"
-output: html_notebook
-date: "2021-04-01"
+output:
+  html_document:
+    df_print: paged
+date: '2021-04-01'
 ---
+
 
 # General useful resources
 
 - https://github.com/valeman/awesome-conformal-prediction
 - https://github.com/ryantibs/conformal
+- https://cdsamii.github.io/cds-demos/conformal/conformal-tutorial.html
 
 
 
@@ -58,9 +62,48 @@ $SE_{fit}$ can approach zero 0 due to missing "extra MSE" term.
 
 * [Vovk et al. 2008](https://jmlr.org/papers/v9/shafer08a.html), more thorough treatment in ['Algorithmic  Learning in a Random World' by Vovk et al. (2005)](https://link.springer.com/book/10.1007/b106715). 
 
-
-
 - Why? Validity of prediction intervals. The probability of excluding the correct target value is bounded by a predefined confidence level. It makes it possible to assess the uncertainty of each single prediction.
+
+- Key appeal of conformal inference? finite-sample coverage also in high dimensions. 
+
+
+# Naive prediction intervals
+
+$$
+C_{naive}(X_{n+1}) = \left[ \hat\mu(X_{n+1}) - \hat F_n^{-1}(1-\alpha), \hat\mu(X_{n+1}) + \hat F_n^{-1}(1-\alpha)   \right] 
+$$
+
+with 
+
+$\hat\mu(X_{n+1})$ : estimator of underlying regression function
+
+$\hat F_n$ : empirical distribution of fitted residuals $|Y_i - \hat \mu(X_i)|$ 
+
+$\hat F_n^{-1}(1-\alpha)$ : $(1-\alpha)$-quantile of $\hat F_n$
+
+When does $C_{naive}$ have approximate validity in large samples?
+
+- estimated reg. func. $\hat \mu$ is accurate ($\hat F_n^{-1}(1-\alpha)$ close enough to $(1-\alpha)$-quantile of pop. resid. $|Y_i -  \mu(X_i)$)
+
+
+When is $\hat \mu$ accurate enough?
+
+- regularity conditions on underlying data dist. $P$
+- regularity conditions on $\hat \mu$ (no misspecified model, appropriate tuning param. choice) 
+
+When/why does $C_{naive}$ fail?
+
+- Fitted residual distirbution $\hat F_n$ often biased downward, hence $C_{naive}$ undercovers the true prediction interval (see for instance [Romero et al. 2019](https://doi.org/10.1080/01621459.2017.1307116), [Chernozhukov et al. 2021](http://arxiv.org/abs/1909.07889))
+
+What is the benefit of conformal prediction intervals?
+
+- proper finite-sample coverage without any assumptions on
+	+ data distribution $P$
+	+ estimator $\hat \mu$ (except being a symmetric function of data points)
+
+Can be verified by the following **Theorem 1**:
+
+*
 
 
 # Regression conformal prediction intervals
@@ -69,6 +112,8 @@ $SE_{fit}$ can approach zero 0 due to missing "extra MSE" term.
 ) 
 
 ## Inductive conformal prediction
+
+The basic procedure can be explained as in derived in Johansson et al. (2014). 
 
 3-Step-Procedure:
 
@@ -92,12 +137,41 @@ $$
 \frac{\#\{z_i \in Z^C | \alpha_i < \alpha_{s(\delta)}+1 \}}{|Z^C|+1} \geq 1-\delta
 $$
 
+## Naive Inductive Conformal Prediction Bands
+
+Notation is based on the paper of Lei et al. (2017) which is called [Distribution-Free Predictive Inference For Regression](https://arxiv.org/pdf/1604.04173.pdf). 
+
+Under the assumption of exchangeability (weaker assumption compared to the stricter i.i.d assumption) for $U_1, ..., U_n \sim P$,
+we have, that the probability of a new sample instance $U_{n+1}$ being smaller/equal compared to the sample quantile based on $U_1, ..., U_n$ is larger than $1-$ the miscoverage level $\alpha$:  
+
+$$
+\mathbb{P}(U_{n+1} \leq \hat q_{1-\alpha}) \geq 1- \alpha
+$$
+
+What is the probability that the new sample instance $U_{n+1}$ exceeds some 
+
+```{r}
+
+set.seed(1234)
+n <- 10000
+u_samp <- rnorm(n)
+x_samp <- rnorm(n)
+y <- x_samp + u_samp
+hist(u_samp)
+hist(x_samp)
+hist(y)
+
+```
+
+
 Let's generate some data based on the Friedman-problem from the `mlbench`-package and explore the data in a principled way.  
 
 ```{r}
 
 library(tidyverse)
 library(reshape2)
+
+set.seed(1234)
 
 
 dat_frame  <- mlbench::mlbench.friedman1(n = 1000, sd = 1) 
@@ -106,39 +180,50 @@ dat_x  <- dat_frame$x %>%
 dat_y <- dat_frame$y %>% 
 	as_tibble()
 
-# independent variables
-summary(dat_x)
+dat <- cbind(dat_y, dat_x)
 
-# dependent variable
-summary(dat_y)
+# summary statistics
+summary(dat)
 
 # boxplots
-boxplot(dat_x)
+boxplot(dat$value)
+boxplot(dat[,2:11])
 
 # density plots of vars
 
 #Convert wide to long
-melt.x <- reshape2::melt(dat_x)
+melt.dat <- reshape2::melt(dat)
 
 # plot densities
-ggplot(data = melt.x, aes(x = value)) + 
+ggplot(data = melt.dat, aes(x = value)) + 
 	geom_histogram() + 
 	facet_wrap(~variable, scales = "free")
 
+# divide into training and test
+train.index <- sample(nrow(dat), nrow(dat)*0.75)
+
+train.dat <- dat[train.index, ]
+test.dat <- dat[-train.index, ]
+
+true.train.index <- sample(nrow(train.dat), nrow(train.dat)*0.75)
+
+true.train.dat <- train.dat[true.train.index, ]
+validate.dat <- train.dat[-true.train.index, ]
+
+
 
 ```
 
 
+## model-free bootstrap prediction intervals
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+## distributional conformal prediction
 
-```{r}
-plot(cars)
-```
+# Wang / Politis (2022) - Model-free Bootstrap and Conformal Prediction in Regression
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+# Tower property? Where is the proof? Derive it. 
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
 

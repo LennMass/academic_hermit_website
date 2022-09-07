@@ -1,0 +1,71 @@
+---
+title: "Causal Frameworks"
+output:
+  html_document:
+    df_print: paged
+date: '2021-04-21'
+---
+
+
+
+<p>New paper on <a href="https://www.nber.org/papers/w29787">Causality and Econometrics</a> comparing three main different frameworks for causal analysis.</p>
+<div id="causality-and-the-task-of-causal-inference" class="section level1">
+<h1>Causality and the task of causal inference</h1>
+<div id="general-thoughts" class="section level2">
+<h2>General thoughts</h2>
+<p>Mapping <span class="math inline">\(g\)</span> connecting inputs X (which may contain unobservables) to outcomes <span class="math inline">\(Y\)</span>:
+<span class="math display">\[
+g: X \rightarrow Y \text{ over the domain of } X 
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(g\)</span> needs to be <strong>stable</strong>: <strong>invariance/autonomy</strong> of relationships</p></li>
+<li><p><span class="math inline">\(g\)</span> needs to be <strong>directional</strong></p></li>
+<li><p><span class="math inline">\(g\)</span> may be a function or a correspondence (for the difference see for instance <a href="https://sites.pitt.edu/~luca/ECON2001/lecture_06.pdf">here</a>)</p></li>
+<li><p>range of <span class="math inline">\(Y\)</span> is a set of <strong>potential outcomes</strong> associated with <span class="math inline">\(X\)</span> over its domain</p></li>
+<li><p>topics of identification and estimation of causal effects (ceteris paribus effecst) are independent of defining causality but needed to make it empirically operational</p></li>
+</ul>
+</div>
+<div id="econometric-approach-to-causality" class="section level2">
+<h2>Econometric approach to causality</h2>
+<p>Four distinct classes of <strong>policy problems</strong>:</p>
+<ul>
+<li><p>Evaluating impacts of implemented interventions on outcomes in a given environment. Does a specific program in place work in terms of policy impacts? (PO framework and do-calculus are mostly focused on these type of questions)</p></li>
+<li><p>Understanding the mechanisms producing treatment effects and policy outcomes</p></li>
+<li><p>Forecasting the impacts of interventions implemented under one environment when the intervention is applied to other environments</p></li>
+<li><p>Forecasting the impacts of intervetions never previously implemented to various environments</p></li>
+</ul>
+<p>Three <strong>tasks</strong> of econometric causal policy analysis:</p>
+<ul>
+<li><p>Model Creation: define counterfactuals (scientific modeling theory)</p></li>
+<li><p>Identification: identify parameters from hypothetical population through point/set identification (probability theory)</p></li>
+<li><p>Estimation: estimate parameters from real data (statistical analysis)</p></li>
+</ul>
+</div>
+</div>
+<div id="three-causal-frameworks" class="section level1">
+<h1>Three causal frameworks</h1>
+<div id="econometric-causal-model" class="section level2">
+<h2>Econometric causal model</h2>
+</div>
+<div id="neyman-rubin-holland-causal-model-potential-outcome-framework---statistics-view" class="section level2">
+<h2>Neyman-Rubin-Holland causal model (potential outcome framework) - statistics view</h2>
+<ul>
+<li>Drawbacks:
+<ul>
+<li>does not readily incorporate unobservables and restrictions on empirical relationships produced by economic theory that are important components of the econometric toolkit</li>
+<li>Social interactions, peer effects, and general equilibrium theory fall outside its purview and are currently considered frontier-topics</li>
+</ul></li>
+</ul>
+</div>
+<div id="do-calculus-and-directed-acyclic-graphs---computer-science-view" class="section level2">
+<h2>do-calculus and directed acyclic graphs - computer science view</h2>
+<ul>
+<li>Drawbacks:
+<ul>
+<li>cannot deal with the functional restrictions and covariance information routinely used in econometrics</li>
+<li>It cannot accommodate assumptions such as monotonicity and the separability restrictions that are essential components of the modern instrumental variable analysis.</li>
+<li>The prototypical Generalized Roy model cannot be identified with do-calculus, although it, and more general models, can be identified using standard econometric tools.</li>
+</ul></li>
+</ul>
+</div>
+</div>
